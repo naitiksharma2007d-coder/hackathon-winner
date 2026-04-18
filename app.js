@@ -7,12 +7,33 @@
     high: { stay: 120, food: 60, local: 35, activity: 50 },
   };
 
-  const VIBE_PLANS = {
-    adventure: ["Trail or cycling route", "Adventure activity window", "Local food lane"],
-    chill: ["Slow breakfast and cafe time", "One scenic walk", "Sunset and relaxed dinner"],
-    history: ["Old town walk", "Museum or heritage site", "Evening cultural lane"],
-    food: ["Morning market", "Cooking class or tasting", "Local signature dinner"],
-    nature: ["Early nature block", "Botanical or lakeside hour", "Light evening"],
+  // Naya VIBE_POOLS jo 20+ din tak unique combinations dega
+  const VIBE_POOLS = {
+    adventure: {
+      morning: ["Trail hiking", "Cycling city tour", "Sunrise viewpoint trek", "Early morning jog", "Kayaking session", "Forest exploration", "Outdoor yoga"],
+      afternoon: ["Rock climbing", "Water sports", "Off-road safari", "Ziplining", "Mountain biking", "Bungee jumping"],
+      evening: ["Street food hunt", "Campfire dinner", "Local brewery visit", "Night trekking", "Open-air BBQ"]
+    },
+    chill: {
+      morning: ["Slow breakfast", "Spa morning", "Bookstore visit", "Coffee tasting", "Quiet garden walk", "Meditation session", "Art gallery stroll"],
+      afternoon: ["Scenic park walk", "Casual strolling", "Picnic by water", "Pottery class", "Botanical garden", "Photography walk"],
+      evening: ["Sunset relaxed dinner", "Live acoustic music", "Stargazing", "Wine tasting", "Cozy movie night"]
+    },
+    history: {
+      morning: ["Old town guided walk", "Fort exploration", "Local artisan workshop", "Antique market", "Historical monument", "Temple/Church visit", "Heritage trail"],
+      afternoon: ["Main museum visit", "Ancient ruins", "Historical photography", "Palace tour", "Cultural center", "Archival library"],
+      evening: ["Cultural performance", "Traditional dinner", "Historic market walk", "Folk dance show", "Heritage light & sound show"]
+    },
+    food: {
+      morning: ["Morning farmer's market", "Local breakfast joint", "Bakery crawling", "Tea/Coffee estate tour", "Fruit picking", "Spice market walk", "Traditional morning tea"],
+      afternoon: ["Cooking class", "Spice market tour", "Farm-to-table lunch", "Cheese tasting", "Local food festival", "Seafood tasting"],
+      evening: ["Signature fine dining", "Hidden gem eatery", "Food truck exploration", "Street food night market", "Dessert crawling"]
+    },
+    nature: {
+      morning: ["Early nature trail", "Bird watching", "Hill viewpoint", "Lakeside walk", "Sunrise photography", "Forest canopy walk", "River trail"],
+      afternoon: ["Botanical gardens", "Riverside boating", "Forest walk", "Wildlife spotting", "Eco-farm visit", "Mountain hiking"],
+      evening: ["Light evening walk", "Sunset picnic", "Eco-friendly cafe", "Campfire gathering", "Firefly watching"]
+    }
   };
 
   const TIPS = [
@@ -20,12 +41,9 @@
     "For crowd control, target major spots within 90 minutes of opening.",
     "Keep one indoor backup block per day for weather changes.",
   ];
+  
   const MIN_NEARBY_RESULTS = 6;
 
-  /**
-   * Nearby places: only temples, monuments, museums, nature, heritage, etc.
-   * Excludes schools, hospitals, offices, and similar non-attraction POIs.
-   */
   const PLACE_EXCLUDE_TITLE =
     /\b(university|college|campus|\bschool\b|hospital|clinic|medical\s+cent(?:er|re)|pharmacy|morgue|cemetery|graveyard|prison|jail|police\s+station|fire\s+station|courthouse|embassy|consulate|parking\s+garage|office\s+tower|data\s+center)\b/i;
 
@@ -66,7 +84,7 @@
   function clampDays(value) {
     const n = parseInt(value, 10);
     if (Number.isNaN(n)) return 2;
-    return Math.max(1, Math.min(14, n));
+    return Math.max(1, Math.min(30, n)); // Changed to 30 days so users can plan longer trips
   }
 
   function normalizeBudget(value) {
@@ -74,7 +92,8 @@
   }
 
   function normalizeVibe(value) {
-    return Object.prototype.hasOwnProperty.call(VIBE_PLANS, value) ? value : "chill";
+    // Ab VIBE_PLANS ki jagah VIBE_POOLS check kar rahe hain
+    return Object.prototype.hasOwnProperty.call(VIBE_POOLS, value) ? value : "chill";
   }
 
   function dailyBudget(budget) {
@@ -150,9 +169,7 @@
       const f = i / (stopCount + 1);
       const lat = from.lat + (to.lat - from.lat) * f;
       const lon = from.lon + (to.lon - from.lon) * f;
-      // Reverse geocode points on the line for practical mid-route stop ideas.
-      // This is an approximation, not turn-by-turn route snapping.
-      // It still gives useful city/town names between endpoints.
+      
       const name = await reverseGeocodeName(lat, lon);
       if (!name) continue;
       const lower = name.toLowerCase();
@@ -201,19 +218,39 @@
     });
   }
 
+  // Naya dynamic itinerary builder
   function buildItinerary(origin, destination, vibe, days) {
-    const plan = VIBE_PLANS[vibe];
+    const pools = VIBE_POOLS[vibe];
     const out = [];
+
+    const morningDescs = [
+      "Start fresh with local breakfast in " + destination + ".", 
+      "Early morning energy boost for the day ahead.", 
+      "A relaxing morning start to set the mood.",
+      "Get moving early to beat the crowds.",
+      "Enjoy the quiet morning atmosphere."
+    ];
+    const lunchDescs = [
+      "Try a highly rated local cafe nearby.", 
+      "Quick bite and some rest to recharge.", 
+      "Sample local flavors for lunch.",
+      "A hearty meal to keep your energy up.",
+      "Light lunch and a brief power nap."
+    ];
+
     for (let i = 1; i <= days; i += 1) {
+      const morningActivity = pools.morning[(i - 1) % pools.morning.length];
+      const afternoonActivity = pools.afternoon[(i - 1) % pools.afternoon.length];
+      const eveningActivity = pools.evening[(i - 1) % pools.evening.length];
+      
       out.push({
         title: "Day " + i,
-        theme: plan[(i - 1) % plan.length],
+        theme: morningActivity + " & " + afternoonActivity,
         slots: [
-          { time: "08:30 - 10:00", name: "Morning start", desc: "Transit + breakfast buffer in " + destination + "." },
-          { time: "10:30 - 13:00", name: plan[(i - 1) % plan.length], desc: "Core vibe activity aligned to your chosen style." },
-          { time: "13:00 - 15:30", name: "Lunch and rest", desc: "Unscheduled rest window to avoid overpacking." },
-          { time: "16:00 - 19:00", name: "Second block", desc: "Neighborhood level exploration away from generic tourist strips." },
-          { time: "Evening", name: "Light close", desc: "Dinner and flexible walk. Route: " + origin + " to " + destination + "." },
+          { time: "09:00 - 11:30", name: morningActivity, desc: morningDescs[(i - 1) % morningDescs.length] },
+          { time: "12:00 - 14:00", name: "Lunch & Recharge", desc: lunchDescs[(i - 1) % lunchDescs.length] },
+          { time: "14:30 - 17:30", name: afternoonActivity, desc: "Main afternoon activity tailored to your " + vibe + " vibe." },
+          { time: "18:00 - 20:00", name: eveningActivity, desc: "Evening exploration and dinner in " + destination + "." },
         ],
       });
     }

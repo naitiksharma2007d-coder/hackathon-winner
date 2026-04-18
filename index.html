@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WanderCraft — Travel Dashboard</title>
+  <title>WanderCraft — Travel Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -17,7 +17,10 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand__icon" aria-hidden="true">
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 2L4 9v14l12 7 12-7V9L16 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 11v10M11 13.5l10 5M21 13.5l-10 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L4 9v14l12 7 12-7V9L16 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M16 11v10M11 13.5l10 5M21 13.5l-10 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
         </div>
         <div>
           <p class="brand__eyebrow">WanderCraft</p>
@@ -26,26 +29,9 @@
       </div>
 
       <nav class="nav" aria-label="Primary">
-        <a class="nav__link" href="#planner">
-          <span class="nav__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
-          Trip planner
-        </a>
-        <a class="nav__link" href="#nearby">
-          <span class="nav__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-          Nearby picks
-        </a>
-        <a class="nav__link" href="#budget">
-          <span class="nav__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>
-          Budget AI
-        </a>
-        <a class="nav__link" href="#expenses">
-          <span class="nav__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
-          Expenses
-        </a>
-        <a class="nav__link" href="login.html">
-          <span class="nav__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
-          Logout
-        </a>
+        <a class="nav__link" href="#planner">🧭 Trip planner</a>
+        <a class="nav__link" href="#nearby">📍 Nearby picks</a>
+        <a class="nav__link" href="#expenses">💳 Expenses Ledger</a>
       </nav>
 
       <div class="sidebar-card">
@@ -60,30 +46,19 @@
         <div class="hero__copy">
           <p class="eyebrow">Dashboard</p>
           <h2 class="hero__title">Plan trips with calm pacing and clear spend.</h2>
-          <p class="hero__sub">Curated nearby picks favor temples, monuments, nature, and heritage—never campus or hospital clutter.</p>
-        </div>
-        <div class="hero__stat" aria-hidden="true">
-          <span class="hero__stat-label">Focus</span>
-          <span class="hero__stat-value">Rest · Transit · Taste</span>
+          <p class="hero__sub">Curated picks favor heritage and nature—no campus or hospital clutter.</p>
         </div>
       </header>
 
       <section class="panel panel--elevated" id="planner">
-        <div class="panel__head">
-          <div>
-            <p class="eyebrow eyebrow--panel">Itinerary</p>
-            <h3 class="panel__title">Trip planner</h3>
-          </div>
-        </div>
+        <h3 class="panel__title">Create New Itinerary</h3>
         <form id="trip-form" class="trip-form">
           <div class="field-grid">
             <label class="field">
               <span>Origin</span>
               <div class="field-inline">
-                <input id="origin" name="origin" placeholder="City or region" required autocomplete="address-level2" />
-                <button id="origin-location-btn" class="btn btn--field-action" type="button" title="Use current location as origin">
-                  My location
-                </button>
+                <input id="origin" name="origin" placeholder="Starting City" required />
+                <button id="origin-location-btn" class="btn btn--field-action" type="button">My location</button>
               </div>
             </label>
             <label class="field">
@@ -91,12 +66,13 @@
               <input id="destination" name="destination" placeholder="Where you’re going" required />
             </label>
           </div>
-          <div class="field-grid field-grid--3">
+          
+          <div class="field-grid field-grid--3" style="margin-top: 1.5rem;">
             <label class="field">
               <span>Vibe</span>
               <select id="vibe" name="vibe">
                 <option value="adventure">Adventure</option>
-                <option value="chill">Chill</option>
+                <option value="chill" selected>Chill</option>
                 <option value="history">History</option>
                 <option value="food">Food</option>
                 <option value="nature">Nature</option>
@@ -104,141 +80,66 @@
             </label>
             <label class="field">
               <span>Duration (days)</span>
-              <input id="duration" name="duration" type="number" min="1" max="14" value="2" />
+              <input id="duration" name="duration" type="number" min="1" max="30" value="3" />
             </label>
             <label class="field">
               <span>Budget tier</span>
-              <select id="budget-tier" name="budget">
-                <option value="low">Low</option>
-                <option value="medium" selected>Medium</option>
-                <option value="high">High</option>
+              <select id="budget" name="budget">
+                <option value="low">Low (Backpacker)</option>
+                <option value="medium" selected>Medium (Standard)</option>
+                <option value="high">High (Luxury)</option>
               </select>
             </label>
           </div>
-          <button class="btn btn--primary" type="submit">
-            <span>Generate plan</span>
-            <svg class="btn__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
+          <button class="btn btn--primary" type="submit">Generate Plan →</button>
         </form>
 
-        <div class="itinerary-wrap" id="result-section">
+        <div id="result-section" class="itinerary-wrap" hidden style="margin-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 2rem;">
           <div class="result-bar">
-            <h4 id="result-heading" class="result-bar__title" tabindex="-1">Itinerary</h4>
-            <p id="result-meta" class="result-bar__meta">Trip details will appear here</p>
+            <h4 id="result-heading" class="result-bar__title">Itinerary</h4>
+            <p id="result-meta" class="result-bar__meta"></p>
           </div>
           <div class="tip-card">
-            <div class="tip-card__icon" aria-hidden="true">✦</div>
-            <div>
-              <p class="tip-card__label">Practical tip</p>
-              <p id="tip-text" class="tip-card__body">Keep your plans flexible and enjoy the journey.</p>
-            </div>
+            <p id="tip-text" class="tip-card__body"></p>
           </div>
           
           <div id="itinerary" class="itinerary-grid">
-            
-            <div class="itinerary-card">
-              <div class="itinerary-card__header">
-                <img src="https://via.placeholder.com/50" alt="Icon" class="itinerary-card__icon">
-              </div>
-              <div class="itinerary-card__body">
-                <h3 class="itinerary-card__title">Day 1: City Tour</h3>
-                <p class="itinerary-card__desc">Explore the local monuments, historical sites, and grab a quick bite at the famous central cafe.</p>
-              </div>
-              <div class="itinerary-card__progress">
-                <div class="progress-info"><span>100% Planned</span></div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
-              </div>
-              <div class="itinerary-card__footer">
-                <span class="status-tag status--warning">4 Places to visit</span>
-              </div>
             </div>
 
-            <div class="itinerary-card">
-              <div class="itinerary-card__header">
-                <img src="https://via.placeholder.com/50" alt="Icon" class="itinerary-card__icon">
-              </div>
-              <div class="itinerary-card__body">
-                <h3 class="itinerary-card__title">Day 2: Nature Walk</h3>
-                <p class="itinerary-card__desc">A peaceful day focusing on nearby nature reserves, parks, and ending with a scenic sunset view.</p>
-              </div>
-              <div class="itinerary-card__progress">
-                <div class="progress-info"><span>60% Planned</span></div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 60%; background: var(--accent-2);"></div></div>
-              </div>
-              <div class="itinerary-card__footer">
-                <span class="status-tag status--danger">2 Places pending</span>
-              </div>
+          <h3 class="panel__title" style="margin-top: 2.5rem;">Budget Estimates</h3>
+          <div id="budget-summary" class="budget-grid">
             </div>
-
-          </div>
-          </div>
+        </div>
       </section>
 
       <section class="panel" id="nearby">
-        <div class="panel__head panel__head--split">
-          <div>
-            <p class="eyebrow eyebrow--panel">Explore</p>
-            <h3 class="panel__title">Nearby tourist picks</h3>
-            <p class="panel__lede">Filtered for temples, monuments, museums, nature, and heritage. Schools, hospitals, and transport hubs are hidden.</p>
+        <h3 class="panel__title">Nearby Tourist Picks</h3>
+        <p class="panel__lede" style="margin-bottom: 1rem; color: #5f6368;">Filtered for heritage and nature only.</p>
+        <div id="places" class="places-grid">
           </div>
-        </div>
-        <div id="places" class="places-grid" role="list"></div>
       </section>
 
-      <section class="panel panel--budget" id="budget">
-        <div class="panel__head">
-          <div>
-            <p class="eyebrow eyebrow--panel">Estimates</p>
-            <h3 class="panel__title">AI budget suggestion</h3>
-            <p class="panel__lede">Rough per-trip totals from your last generated plan (illustrative).</p>
-          </div>
-        </div>
-        <div id="budget-summary" class="budget-grid">
-          <div class="budget-box">
-            <p>Travel</p>
-            <strong>₹4,500</strong>
-          </div>
-          <div class="budget-box">
-            <p>Food</p>
-            <strong>₹2,200</strong>
-          </div>
-          <div class="budget-box">
-            <p>Stay</p>
-            <strong>₹3,000</strong>
-          </div>
-          <div class="budget-box budget-box--total">
-            <p>Total Estimated</p>
-            <strong>₹9,700</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel" id="expenses">
-        <div class="panel__head">
-          <div>
-            <p class="eyebrow eyebrow--panel">Ledger</p>
-            <h3 class="panel__title">Trip expense tracker</h3>
-          </div>
-        </div>
-        <form id="expense-form" class="expense-form">
-          <input type="text" id="expense-note" placeholder="What was it? (tickets, dinner, taxi)" required />
-          <input type="number" id="expense-amount" placeholder="Amount" step="0.01" min="0" required />
+      <section class="panel panel--budget" id="expenses">
+        <h3 class="panel__title">Trip Expense Tracker</h3>
+        <form id="expense-form" class="expense-form" style="margin-top: 1rem;">
+          <input type="text" id="expense-note" placeholder="What was it?" required />
+          <input type="number" id="expense-amount" placeholder="Amount (₹)" step="0.01" required />
           <button class="btn btn--primary btn--compact" type="submit">Add</button>
         </form>
-        <div class="expense-total">Total Spent <span id="expense-total">₹1,250.00</span></div>
+        
         <ul id="expense-list" class="expense-list">
-          <li>
-            <span>Museum Tickets</span>
-            <strong>₹450</strong>
-          </li>
-          <li>
-            <span>Lunch at Cafe</span>
-            <strong>₹800</strong>
-          </li>
-        </ul>
+          </ul>
+        
+        <div class="expense-total">Total Spent: ₹<span id="expense-total">0.00</span></div>
+        
+        <button onclick="clearAllData()" class="btn btn--field-action" style="margin-top: 1.5rem; width: 100%; color: #d93025; border-color: rgba(217, 48, 37, 0.2);">
+          🗑️ Remove All Ledger Data
+        </button>
       </section>
 
-      <p class="fine-print">Attraction filtering uses Wikipedia categories and titles; verify hours and access before visiting.</p>
+      <p class="fine-print" style="text-align: center; padding: 2rem; opacity: 0.6;">
+        WanderCraft Studio © 2026 • Verified Heritage Filtering Active
+      </p>
     </main>
   </div>
 
